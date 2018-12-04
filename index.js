@@ -33,7 +33,10 @@ bot.on('ready', function (evt) {
 bot.on('message', function (user, userID, channelID, message, evt) {
   logger.info(message);
 
-  youtube_regex.lastIndex = 0; // js is stupid as hell
+  // js is stupid as hell
+  youtube_regex.lastIndex = 0;
+  rogan_regex.lastIndex = 0;
+
   var match_info = youtube_regex.exec(message);
 
   if (match_info) {
