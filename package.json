@@ -1,0 +1,14 @@
+{
+  "name": "norogan",
+  "version": "1.0.0",
+  "description": "Discord bot to flag Joe Rogan videos",
+  "main": "index.js",
+  "repository": "https://github.com/caracalla/norogan",
+  "author": "caracalla",
+  "license": "MIT",
+  "dependencies": {
+    "discord.io": "woor/discord.io#gateway_v6",
+    "googleapis": "^35.0.0",
+    "winston": "^3.1.0"
+  }
+}
