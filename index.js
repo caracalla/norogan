@@ -18,6 +18,8 @@ logger.debug('norogan is live');
 var youtube_regex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/gi;
 var rogan_regex = /joe rogan/gi;
 
+var bot_message = 'https://cdn.discordapp.com/attachments/153260032018874368/519660805885788189/cotzin2oh5121.png';
+
 // Initialize Discord Bot
 var bot = new Discord.Client({
   token: discord_auth.token,
@@ -67,7 +69,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
         bot.sendMessage({
           to: channelID,
-          message: 'WARNING! JOE ROGAN VIDEO!'
+          message: bot_message
         });
       }
     })
