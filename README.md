@@ -1,6 +1,6 @@
 # norogan
 
-When a Joe Rogan video is posted in your Discord channel, this bot will say "WARNING! JOE ROGAN VIDEO!".  The bot uses the YouTube Data API to see if the title contains "joe rogan".
+When any Joe Rogan-related content is posted in your discord channel, this bot will post a humorous image.
 
 ## Setup
 
@@ -20,5 +20,8 @@ When a Joe Rogan video is posted in your Discord channel, this bot will say "WAR
 4. `node index.js`
 
 ## TODO
+* Respond to being highlighted
+* Implement Twitter, bit.ly, and other links that can be investigated for possible Joe Rogan content
+* Pick a more robust way to post the image?
 * Look for "joe rogan" in other areas if the title isn't a match (tags, description)
 * Use emoji or something
