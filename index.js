@@ -32,17 +32,31 @@ bot.on('ready', function (evt) {
   logger.info(bot.username + ' - (' + bot.id + ')');
 });
 
-bot.on('message', function (user, userID, channelID, message, evt) {
-  logger.info(message);
+var post_image = function (channel_id) {
+  bot.sendMessage({
+    to: channel_id,
+    message: bot_message
+  });
+}
+
+bot.on('message', function (user, user_id, channel_id, message, evt) {
+  logger.info(user + ': ' + message);
 
   // js is stupid as hell
   youtube_regex.lastIndex = 0;
   rogan_regex.lastIndex = 0;
 
-  var match_info = youtube_regex.exec(message);
+  var message_match = rogan_regex.exec(message);
 
-  if (match_info) {
-    var video_id = match_info[1];
+  if (message_match) {
+    post_image(channel_id);
+    return;
+  }
+
+  var youtube_match = youtube_regex.exec(message);
+
+  if (youtube_match) {
+    var video_id = youtube_match[1];
 
     youtube_service.videos.list({
       key: youtube_auth.key,
@@ -66,11 +80,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
       if (rogan_regex.test(video_info.title)) {
         logger.info('it is a joe rogan video')
-
-        bot.sendMessage({
-          to: channelID,
-          message: bot_message
-        });
+        post_image(channel_id);
       }
     })
   }
