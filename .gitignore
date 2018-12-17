@@ -1,6 +1,5 @@
 node_modules
 
-discord_auth.json
-youtube_auth.json
+secrets.json
 
 *.log
