@@ -1,9 +1,13 @@
 'use strict'
 
-const youtube_regex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/gi;
-const rogan_regex = /joe rogan/gi;
+const youtube_regex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/i;
+const rogan_regex = /joe rogan/i;
+const hi_regex = /^hi$/i;
 
 const {google} = require('googleapis');
+
+const minimum_his = 3;
+const hi_chance = 0.4;
 
 
 module.exports = class NoRogan {
@@ -11,21 +15,26 @@ module.exports = class NoRogan {
     this.client = client;
     this.configs = configs;
     this.logger = logger;
+    this.hi_channel_map = {};
     this.youtube_service = google.youtube('v3');
 
     this.logger.info('norogan is now live')
   }
 
   process_message(message) {
+    if (message.author.id === this.client.user.id) {
+      return;
+    }
+
     if (message.isMentioned(this.client.user)) {
       this.reply_to_mention(message);
     }
 
-    // js is stupid as hell
-    youtube_regex.lastIndex = 0;
-    rogan_regex.lastIndex = 0;
+    if (hi_regex.test(message.content)) {
+      this.say_hi(message);
+    }
 
-    if (rogan_regex.exec(message.content)) {
+    if (rogan_regex.test(message.content)) {
       this.reply_to_rogan(message);
     }
 
@@ -34,6 +43,18 @@ module.exports = class NoRogan {
     if (youtube_match && this.find_youtube_video(youtube_match[1])) {
       this.reply_to_rogan(message);
     }
+  }
+
+  say_hi(message) {
+    let channel_his = this.hi_channel_map[message.channel.name] || 0;
+    channel_his += 1;
+
+    if (channel_his >= minimum_his && Math.random() < hi_chance) {
+      message.channel.send('hi');
+      channel_his = 0;
+    }
+
+    this.hi_channel_map[message.channel.name] = channel_his;
   }
 
   reply_to_mention(message) {
