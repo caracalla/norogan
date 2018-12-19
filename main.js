@@ -40,7 +40,12 @@ client.login(discord_token).then(() => {
 
     norogan.process_message(message);
   });
-}).catch(error => {
+
+  client.on('error', (error) => {
+    logger.error('I had an error');
+    logger.error(error);
+  });
+}).catch((error) => {
   logger.error(`failed to login: ${error}`);
   process.exit(1);
 });
