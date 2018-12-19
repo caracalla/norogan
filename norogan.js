@@ -77,7 +77,7 @@ module.exports = class NoRogan {
 
   find_youtube_video(video_id) {
     this.youtube_service.videos.list({
-      key: youtube_auth.key,
+      key: this.configs.youtube.key,
       id: video_id,
       part: 'snippet'
     }, function (err, response) {

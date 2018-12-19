@@ -14,7 +14,7 @@ const logger = winston.createLogger({
 // configuration
 const configs = require('./config.json');
 const secrets = require('./secrets.json');
-// merge configs and secrets
+Object.assign(configs, secrets);
 
 
 // set up discord client
