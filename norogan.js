@@ -80,7 +80,7 @@ module.exports = class NoRogan {
       key: this.configs.youtube.key,
       id: video_id,
       part: 'snippet'
-    }, function (err, response) {
+    }, (err, response) =>  {
       if (err) {
         this.logger.error('YouTube API error for video id: ' + video_id);
         return;
