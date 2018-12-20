@@ -40,8 +40,11 @@ module.exports = class NoRogan {
 
     var youtube_match = youtube_regex.exec(message.content);
 
-    if (youtube_match && this.find_youtube_video(youtube_match[1])) {
-      this.reply_to_rogan(message);
+    if (youtube_match) {
+      // TODO: use promises or something? I don't know if I like this
+      this.find_youtube_video(youtube_match[1], () => {
+        this.reply_to_rogan(message);
+      })
     }
   }
 
@@ -75,7 +78,7 @@ module.exports = class NoRogan {
       .catch((failed_message) => logger.error(`failed to send: ${failed_message.content}`));
   }
 
-  find_youtube_video(video_id) {
+  find_youtube_video(video_id, callback) {
     this.youtube_service.videos.list({
       key: this.configs.youtube.key,
       id: video_id,
@@ -93,11 +96,10 @@ module.exports = class NoRogan {
       }
 
       var video_info = videos[0].snippet;
-
       this.logger.info('video posted: ' + video_info.title);
 
       if (rogan_regex.test(video_info.title)) {
-        return true;
+        callback();
       }
     })
   }
