@@ -35,14 +35,17 @@ module.exports = class NoRogan {
 
     if (message.isMentioned(this.client.user)) {
       this.reply_to_mention(message);
+      return;
     }
 
     if (hi_regex.test(message.content)) {
       this.say_hi(message);
+      return;
     }
 
     if (rogan_regex.test(message.content)) {
       this.reply_to_rogan(message);
+      return;
     }
 
     var youtube_match = youtube_regex.exec(message.content);
