@@ -19,8 +19,10 @@ When any Joe Rogan-related content is posted in your discord channel, this bot w
 3. `yarn install`
 4. `yarn start`
 
+### Options
+* Add a `user_id_blacklist` array to `secrets.json` to blacklist certain troublesome users from triggering the bot too often.
+
 ## TODO
 * Implement Twitter, bit.ly, and other links that can be investigated for possible Joe Rogan content
 * Youtube:
     * Look for "joe rogan" in other areas if the title isn't a match (tags, description)
-* Use emoji or something

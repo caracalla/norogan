@@ -2,6 +2,7 @@
 
 const youtube_regex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?/i;
 const rogan_regex = /joe rogan/i;
+const only_rogan_regex = /^joe rogan$/i;
 const hi_regex = /^hi$/i;
 
 const {google} = require('googleapis');
@@ -18,11 +19,17 @@ module.exports = class NoRogan {
     this.hi_channel_map = {};
     this.youtube_service = google.youtube('v3');
 
-    this.logger.info('norogan is now live')
+    this.logger.info('norogan is now live');
   }
 
   process_message(message) {
-    if (message.author.id === this.client.user.id) {
+    if (message.author.id === this.client.user.id ||
+        only_rogan_regex.test(message.content)) {
+      return;
+    }
+
+    if (this.configs.user_id_blacklist &&
+        this.configs.user_id_blacklist.includes(message.author.id)) {
       return;
     }
 

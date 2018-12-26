@@ -36,7 +36,7 @@ client.login(discord_token).then(() => {
   const norogan = new NoRogan(client, configs, logger);
 
   client.on('message', (message) => {
-    logger.info(`${message.author.username}: ${message.content}`);
+    logger.info(`${message.channel.name} - ${message.author.username}: ${message.content}`);
 
     norogan.process_message(message);
   });
