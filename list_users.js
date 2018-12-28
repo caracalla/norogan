@@ -22,8 +22,6 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const discord_token = secrets.discord.token;
 
-const NoRogan = require('./norogan.js');
-
 logger.info('starting up');
 
 client.once('ready', () => {
@@ -33,13 +31,15 @@ client.once('ready', () => {
 client.login(discord_token).then(() => {
   logger.info(`logged in as: ${client.user.tag})`);
 
-  const norogan = new NoRogan(client, configs, logger);
+  client.guilds.forEach((guild) => {
+    logger.info(`Server name: ${guild.name}`);
 
-  client.on('message', (message) => {
-    logger.info(`${message.channel.name} - ${message.author.username}: ${message.content}`);
-
-    norogan.process_message(message);
+    guild.members.forEach((member) => {
+      logger.info(`  User name: ${member.displayName}, id: ${member.id}`);
+    });
   });
+
+  process.exit(0);
 
   client.on('error', (error) => {
     logger.error('I had an error');
